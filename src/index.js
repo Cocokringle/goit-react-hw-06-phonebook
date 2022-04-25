@@ -1,22 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import  App  from './components/App/App';
 import { Provider } from 'react-redux';
-import { store } from './react/store';
+import { store, persistor } from './redux/store';
 import reportWebVitals from './reportWebVitals';
+import { PersistGate } from 'redux-persist/integration/react'
 import './index.css';
-// import { createRoot } from 'react-dom/client';
-// const container = document.getElementById('app');
-// const root = createRoot(container);
 
 
-ReactDOM.render(
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
       <App />
+    </PersistGate>
     </Provider> 
   </React.StrictMode>,
-  document.getElementById('root')
 );
 
 

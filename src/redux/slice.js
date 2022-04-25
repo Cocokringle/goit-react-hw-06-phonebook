@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getContactsFromLS } from 'LocalStorage/LocalStorage';
 
 const initialContacts = [
   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -8,25 +7,24 @@ const initialContacts = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-function setInitialState() {
-  if (getContactsFromLS('contacts')) {
-    return getContactsFromLS('contacts');
-  } else {
-    return initialContacts;
-  }
-}
 
 export const contactsSlice = createSlice({
     name:'contacts',
-    initialState: setInitialState(),
+    initialState: {
+      items: initialContacts,
+      filter: '',
+    },
     reducers: {
       add(state, action) {
-        return [...state, ...action.payload];
+        return [...state.items, ...action.payload];
       },
       remove(state, action) {
-        return state.filter((item, index) => index !== action.payload);
+        return state.items.filter((item) => item.id !== action.payload);
+      },
+      set(state, action) {
+        state.filter = action.payload;
       },
     },
 });
 
-export const { add, remove } = contactsSlice.actions;
+export const { add, remove, set } = contactsSlice.actions;

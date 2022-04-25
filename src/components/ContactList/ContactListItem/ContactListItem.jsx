@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import s from './ContactList.module.css'
 
 const ContactListItem = ({contact, onDeleteContact}) => {
-    const {number, id, name} = contact;
+  const {number, id, name} = contact;
     return (
      <li className={s.contact} key={id}>
          <p className={s.contact_name}>{name}</p>
@@ -14,13 +14,13 @@ const ContactListItem = ({contact, onDeleteContact}) => {
  
  }
  
- ContactListItem.propTypes = {
-    contact: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }),
-    onDelete: PropTypes.func,
-  };
+//  ContactListItem.propTypes = {
+//     contact: PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       name: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//     }),
+//     onDelete: PropTypes.func,
+//   };
  
  export default ContactListItem;

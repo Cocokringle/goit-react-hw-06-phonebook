@@ -1,31 +1,21 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import { nanoid } from "nanoid";
 import s from './ContactForm.module.css'
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { add } from '../../redux/slice';
 
-export default function ContactForm({onSubmit}){
+export default function ContactForm(){
+
     const [name, setName] = useState('')
     const [number, setNumber] = useState('')
+
+    const dispatch = useDispatch()
+    const contacts = useSelector(state => state.contacts.items);
 
     const nameInputId = nanoid();
     const numberInputId = nanoid();
 
-    const reset = () => {
-        setName('');
-        setNumber('');
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const contact = {
-            name,
-            number
-        };
-        onSubmit(contact);
-
-        reset()
-    }
     const onNameChange = evt => {
         setName(evt.currentTarget.value);
     };
@@ -33,6 +23,49 @@ export default function ContactForm({onSubmit}){
     const onNumberChange = evt => {
         setNumber(evt.currentTarget.value);
     };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const contact = {
+          id: nanoid(),
+          name,
+          number,
+        };
+        const normalizedName = name.toLowerCase();
+
+        if (contacts.find((contact) => contact.name.toLowerCase() === normalizedName)) {
+            alert(`${name} is already in contacts list`);
+            return;
+        } 
+        else if (contacts.find((contact) => contact.number === number)) {
+            alert(`${number} is already in contacts list`);
+            return;
+        } 
+        else {
+            dispatch(add([contact]));
+        }
+        reset()
+
+    }
+
+    const reset = () => {
+        setName('');
+        setNumber('');
+    };
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+
+    //     const contact = {
+    //         name,
+    //         number
+    //     };
+    //     saveContact(contact);
+
+    //     reset()
+    // }
+
+
     return(
             <form onSubmit={handleSubmit}>
                 <label htmlFor={nameInputId}> Name
@@ -64,9 +97,9 @@ export default function ContactForm({onSubmit}){
     )
 }
 
-ContactForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//     onSubmit: PropTypes.func,
+// };
 // class ContactForm  extends React.Component{
 //     state = {
 //         name: '',
