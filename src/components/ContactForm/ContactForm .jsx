@@ -1,7 +1,6 @@
 import {useState} from 'react';
 import { nanoid } from "nanoid";
 import s from './ContactForm.module.css'
-// import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { add } from '../../redux/sliceContacts ';
 
@@ -11,7 +10,7 @@ export default function ContactForm(){
     const [number, setNumber] = useState('')
 
     const dispatch = useDispatch()
-    const contacts = useSelector(state => state.contacts.value);
+    const contacts = useSelector(state => state.contacts.items);
 
     const nameInputId = nanoid();
     const numberInputId = nanoid();
@@ -31,20 +30,20 @@ export default function ContactForm(){
           name,
           number,
         };
-        const normalizedName = name.toLowerCase();
 
-        if (contacts.find((contact) => contact.name.toLowerCase() === normalizedName)) {
+        const normalizedName = name.toLowerCase();
+        const savedContacts = contacts.find(
+            contact => contact.name.toLowerCase() === normalizedName
+        );
+      
+        if (savedContacts) {
             alert(`${name} is already in contacts list`);
             return;
-        } 
-        else if (contacts.find((contact) => contact.number === number)) {
-            alert(`${number} is already in contacts list`);
-            return;
-        } 
-        else {
-            dispatch(add([contact]));
         }
-        reset()
+      
+        dispatch(add(contact));
+      
+        reset();
 
     }
 
@@ -52,19 +51,6 @@ export default function ContactForm(){
         setName('');
         setNumber('');
     };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     const contact = {
-    //         name,
-    //         number
-    //     };
-    //     saveContact(contact);
-
-    //     reset()
-    // }
-
 
     return(
             <form onSubmit={handleSubmit}>
@@ -97,9 +83,6 @@ export default function ContactForm(){
     )
 }
 
-// ContactForm.propTypes = {
-//     onSubmit: PropTypes.func,
-// };
 // class ContactForm  extends React.Component{
 //     state = {
 //         name: '',
