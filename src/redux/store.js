@@ -1,5 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit'
-import { contactsSlice } from 'redux/slice'
+import { contactsSlice } from 'redux/sliceContacts '
 import {
     persistStore,
     persistReducer,
@@ -11,11 +11,11 @@ import {
     REGISTER,
   } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import { filterSlice } from './sliceFilter'
 
 const persistConfig = {
     key: 'contacts',
     storage,
-    whitelist: ['items'],
 }
 
 const persistedContactsReducer = persistReducer(persistConfig, contactsSlice.reducer) 
@@ -23,6 +23,7 @@ const persistedContactsReducer = persistReducer(persistConfig, contactsSlice.red
 export const store = configureStore({
     reducer: {
         contacts: persistedContactsReducer,
+        filter: filterSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

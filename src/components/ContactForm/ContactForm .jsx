@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import s from './ContactForm.module.css'
 // import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { add } from '../../redux/slice';
+import { add } from '../../redux/sliceContacts ';
 
 export default function ContactForm(){
 
@@ -11,7 +11,7 @@ export default function ContactForm(){
     const [number, setNumber] = useState('')
 
     const dispatch = useDispatch()
-    const contacts = useSelector(state => state.contacts.items);
+    const contacts = useSelector(state => state.contacts.value);
 
     const nameInputId = nanoid();
     const numberInputId = nanoid();

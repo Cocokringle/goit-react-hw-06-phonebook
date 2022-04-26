@@ -3,12 +3,12 @@ import s from './Filter.module.css'
 import { nanoid } from 'nanoid';
 // import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { set } from "../../redux/slice";
+import { set } from "../../redux/sliceFilter";
 
 const Filter = () => {
     let filterId = nanoid();
     const dispatch = useDispatch()
-    const filter = useSelector(state => state.contacts.filter);
+    const filter = useSelector(state => state.filter.value);
 
     const changeFilter = e => {
         dispatch(set(e.currentTarget.value))
